@@ -5,7 +5,7 @@ def load_data(filename):
     data = []
     with open(filename, 'r') as f:
         for line in f:
-            row = list(map(float, line.split()))
+            row = list[float](map[float](float, line.split()))
             if row:
                 data.append(row)
     return data

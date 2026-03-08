@@ -1,4 +1,5 @@
 import sys
+from search import forward_selection
 
 def load_data(filename):
     data = []
@@ -21,8 +22,18 @@ def main():
     num_instances = len(data)
     num_features  = len(data[0]) - 1
 
-    print(f"\nThis dataset has {num_features} features (not including the class attribute), "
-          f"with {num_instances} instances.")
+    print(f"\nThis dataset has {num_features} features, with {num_instances} instances.")
+    print("\nType the number of the algorithm you want to run:")
+    print("  1. Forward Selection")
+    print("  2. Backward Elimination")
+    choice = input()
+    if choice == '1':
+        forward_selection(data, num_features)
+    # elif choice == '2':
+    #     backward_elimination
+    # else:
+    #     print("Invalid choice. Please try again.")
+
 
 if __name__ == '__main__':
     main()

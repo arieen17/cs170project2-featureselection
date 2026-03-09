@@ -1,4 +1,5 @@
 import sys
+import time
 from search import forward_selection, backward_elimination, leave_one_out_accuracy
 
 def load_data(filename):
@@ -30,12 +31,15 @@ def main():
     print(f"\nThis dataset has {num_features} features (not including the class attribute), with {num_instances} instances.")
     print(f'\nRunning nearest neighbor with all {num_features} features, using "leaving-one-out" evaluation, I get an accuracy of {all_acc*100:.1f}%')
     choice = input()
+    start = time.time()
     if choice == '1':
         forward_selection(data, num_features)
     elif choice == '2':
         backward_elimination(data, num_features)  
     else:
         print("Invalid choice, enter 1 or 2!")
+    end = time.time()
+    print(f"\nSearch completed in {(end - start) / 60:.2f} minutes")
 
 if __name__ == '__main__':
     main()

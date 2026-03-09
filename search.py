@@ -67,10 +67,10 @@ def backward_elimination(data, num_features):
                 best_accuracy = accuracy
                 worst_feature = j
             
-            current_set.remove(worst_feature)
+        current_set.remove(worst_feature)
 
-            if best_accuracy > best_overall_accuracy:
-                best_overall_accuracy = best_accuracy
-                best_overall_set = list(current_set)
-            
-        print(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.1f}%")
+        if best_accuracy > best_overall_accuracy:
+            best_overall_accuracy = best_accuracy
+            best_overall_set = list(current_set)
+        print(f"Feature set {set(current_set)} has accuracy {best_accuracy*100:.1f}%")
+    print(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.1f}%")

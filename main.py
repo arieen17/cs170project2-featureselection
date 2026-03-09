@@ -1,5 +1,5 @@
 import sys
-from search import forward_selection
+from search import forward_selection, backward_elimination
 
 def load_data(filename):
     data = []
@@ -29,11 +29,10 @@ def main():
     choice = input()
     if choice == '1':
         forward_selection(data, num_features)
-    # elif choice == '2':
-    #     backward_elimination
-    # else:
-    #     print("Invalid choice. Please try again.")
-
+    elif choice == '2':
+        backward_elimination(data, num_features)  
+    else:
+        print("Invalid choice, enter 1 or 2!")
 
 if __name__ == '__main__':
     main()

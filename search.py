@@ -35,7 +35,7 @@ def forward_selection(data, num_features):
             if j in current_set:
                 continue
             accuracy = leave_one_out_accuracy(data, current_set, j)
-            print(f"\tUsing features {set(current_set + [j])}: accuracy is {accuracy*100:.2f}%")
+            print(f"\tUsing features {set(current_set + [j])}: accuracy is {accuracy*100:.1f}%")
             if accuracy > best_accuracy:
                 best_accuracy = accuracy
                 best_feature = j
@@ -44,9 +44,9 @@ def forward_selection(data, num_features):
         if best_accuracy > best_overall_accuracy:
             best_overall_accuracy = best_accuracy
             best_overall_set = list(current_set)
-        print(f"Feature set {set(current_set)} has accuracy {best_accuracy*100:.2f}%")
+        print(f"Feature set {set(current_set)} has accuracy {best_accuracy*100:.1f}%")
 
-    print(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.2f}%")
+    print(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.1f}%")
 
 def backward_elimination(data, num_features):
     current_set = list(range(1, num_features + 1))
@@ -62,7 +62,7 @@ def backward_elimination(data, num_features):
         for j in current_set:
             feature = [f for f in current_set if f != j]
             accuracy = leave_one_out_accuracy(data, feature[:-1], feature[-1])
-            print(f"\tUsing features {set(feature)}: accuracy is {accuracy*100:.2f}%")
+            print(f"\tUsing features {set(feature)}: accuracy is {accuracy*100:.1f}%")
             if accuracy > best_accuracy:
                 best_accuracy = accuracy
                 worst_feature = j
@@ -73,4 +73,4 @@ def backward_elimination(data, num_features):
                 best_overall_accuracy = best_accuracy
                 best_overall_set = list(current_set)
             
-        print(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.2f}%")
+        print(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.1f}%")

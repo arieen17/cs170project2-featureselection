@@ -5,7 +5,7 @@ def load_data(filename):
     data = []
     with open(filename, 'r') as f:
         for line in f:
-            row = list[float](map[float](float, line.split()))
+            row = list(map(float, line.split()))
             if row:
                 data.append(row)
     return data
@@ -24,8 +24,8 @@ def main():
 
     print(f"\nThis dataset has {num_features} features, with {num_instances} instances.")
     print("\nType the number of the algorithm you want to run:")
-    print("  1. Forward Selection")
-    print("  2. Backward Elimination")
+    print("\t1. Forward Selection")
+    print("\t2. Backward Elimination")
     choice = input()
     if choice == '1':
         forward_selection(data, num_features)

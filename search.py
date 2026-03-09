@@ -2,6 +2,7 @@ import math
 
 def leave_one_out_accuracy(data, current_set, add_feature):
     features = current_set + [add_feature]
+    print(f"DEBUG: evaluating features {features}")
     correct = 0
     n = len(data)
 
@@ -12,7 +13,7 @@ def leave_one_out_accuracy(data, current_set, add_feature):
         for j in range(n):
             if j == i:
                 continue
-            distance = math.sqtr(sum((data[j][k] - data[i][k])**2 for k in features)) # euclidean distance
+            distance = math.sqrt(sum((data[j][k] - data[i][k])**2 for k in features)) # euclidean distance
             if distance < best_distance:
                 best_distance = distance
                 best_label = data[j][0]
@@ -35,7 +36,7 @@ def forward_selection(data, num_features):
             if j in current_set:
                 continue
             accuracy = leave_one_out_accuracy(data, current_set, j)
-            print(f"Using features {set(current_set + [j])}: accuracy is {accuracy*100:.1f}%")
+            print(f"\tUsing features {set(current_set + [j])}: accuracy is {accuracy*100:.1f}%")
             if accuracy > best_accuracy:
                 best_accuracy = accuracy
                 best_feature = j
@@ -62,7 +63,7 @@ def backward_elimination(data, num_features):
         for j in current_set:
             feature = [f for f in current_set if f != j]
             accuracy = leave_one_out_accuracy(data, feature[:-1], feature[-1])
-            print(f"Using features {set(feature)}: accuracy is {accuracy*100:.1f}%")
+            print(f"\tUsing features {set(feature)}: accuracy is {accuracy*100:.1f}%")
             if accuracy > best_accuracy:
                 best_accuracy = accuracy
                 worst_feature = j

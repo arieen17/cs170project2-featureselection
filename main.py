@@ -22,13 +22,13 @@ def main():
     num_instances = len(data)
     num_features  = len(data[0]) - 1
 
-    print(f"\nThis dataset has {num_features} features, with {num_instances} instances.")
     all_features = list(range(1, num_features + 1))
     all_acc = leave_one_out_accuracy(data, all_features[:-1], all_features[-1])
-    print(f'\nRunning nearest neighbor with all {num_features} features, using "leaving-one-out" evaluation, I get an accuracy of {all_acc*100:.1f}%')
     print("\nType the number of the algorithm you want to run:")
     print("\t1. Forward Selection")
     print("\t2. Backward Elimination")
+    print(f"\nThis dataset has {num_features} features (not including the class attribute), with {num_instances} instances.")
+    print(f'\nRunning nearest neighbor with all {num_features} features, using "leaving-one-out" evaluation, I get an accuracy of {all_acc*100:.1f}%')
     choice = input()
     if choice == '1':
         forward_selection(data, num_features)

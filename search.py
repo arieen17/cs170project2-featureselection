@@ -2,9 +2,8 @@ import math
 
 best_so_far = 0.0
 
-def leave_one_out_accuracy(data, current_set, add_feature):
+def near_neighbor(data, features):
     global best_so_far
-    features = current_set + [add_feature]
     correct = 0
     n = len(data)
 
@@ -49,7 +48,7 @@ def forward_selection(data, num_features):
         for j in range(1, num_features + 1):
             if j in current_set:
                 continue
-            accuracy = leave_one_out_accuracy(data, current_set, j)
+            accuracy = near_neighbor(data, current_set + [j])
             print(f"\tUsing features {set(current_set + [j])}: accuracy is {accuracy*100:.1f}%")
             if accuracy > best_accuracy:
                 best_accuracy = accuracy
@@ -67,7 +66,7 @@ def backward_elimination(data, num_features):
     global best_so_far
     best_so_far = 0.0 
     current_set = list(range(1, num_features + 1))
-    best_overall_accuracy = leave_one_out_accuracy(data, current_set[:-1], current_set[-1])
+    best_overall_accuracy = near_neighbor(data, current_set)
     best_overall_set = list(current_set)
 
     print("\nBeginning backward elimination:")
@@ -78,7 +77,7 @@ def backward_elimination(data, num_features):
 
         for j in current_set:
             feature = [f for f in current_set if f != j]
-            accuracy = leave_one_out_accuracy(data, feature[:-1], feature[-1])
+            accuracy = near_neighbor(data, feature)
             print(f"\tUsing features {set(feature)}: accuracy is {accuracy*100:.1f}%")
             if accuracy > best_accuracy:
                 best_accuracy = accuracy

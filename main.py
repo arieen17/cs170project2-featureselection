@@ -1,6 +1,6 @@
 import sys
 import time
-from search import forward_selection, backward_elimination, leave_one_out_accuracy
+from search import forward_selection, backward_elimination, near_neighbor
 
 def load_data(filename):
     data = []
@@ -24,7 +24,7 @@ def main():
     num_features  = len(data[0]) - 1
 
     all_features = list(range(1, num_features + 1))
-    all_acc = leave_one_out_accuracy(data, all_features[:-1], all_features[-1])
+    all_acc = near_neighbor(data, all_features)
     print("\nType the number of the algorithm you want to run:")
     print("\t1. Forward Selection")
     print("\t2. Backward Elimination")

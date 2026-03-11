@@ -1,6 +1,11 @@
 import math
+import os
 
 best_so_far = 0.0
+
+def log(msg, trace):
+    print(msg)
+    trace.write(msg + "\n")
 
 def near_neighbor(data, features):
     global best_so_far
@@ -32,14 +37,17 @@ def near_neighbor(data, features):
         best_so_far = accuracy
     return accuracy
 
-def forward_selection(data, num_features):
+def forward_selection(data, num_features, filename):
     global best_so_far
     best_so_far = 0.0 
+    base = os.path.basename(filename)
+    tracefile = f"forwardtraceback_{base}"
+    trace = open(tracefile, "w")
     current_set = []
     best_overall_accuracy = 0.0
     best_overall_set = []
 
-    print("\nBeginning forward selection:")
+    log("\nBeginning forward selection:", trace)
 
     for i in range(1, num_features + 1):
         best_feature = None
@@ -49,7 +57,7 @@ def forward_selection(data, num_features):
             if j in current_set:
                 continue
             accuracy = near_neighbor(data, current_set + [j])
-            print(f"\tUsing features {set(current_set + [j])}: accuracy is {accuracy*100:.1f}%")
+            log(f"\tUsing features {set(current_set + [j])}: accuracy is {accuracy*100:.1f}%", trace)
             if accuracy > best_accuracy:
                 best_accuracy = accuracy
                 best_feature = j
@@ -58,18 +66,21 @@ def forward_selection(data, num_features):
         if best_accuracy > best_overall_accuracy:
             best_overall_accuracy = best_accuracy
             best_overall_set = list(current_set)
-        print(f"Feature set {set(current_set)} has accuracy {best_accuracy*100:.1f}%")
+        log(f"Feature set {set(current_set)} has accuracy {best_accuracy*100:.1f}%", trace)
+    log(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.1f}%", trace)
+    trace.close()
 
-    print(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.1f}%")
-
-def backward_elimination(data, num_features):
+def backward_elimination(data, num_features, filename):
     global best_so_far
     best_so_far = 0.0 
+    base = os.path.basename(filename)
+    tracefile = f"backwardtraceback_{base}"
+    trace = open(tracefile, "w")
     current_set = list(range(1, num_features + 1))
     best_overall_accuracy = near_neighbor(data, current_set)
     best_overall_set = list(current_set)
 
-    print("\nBeginning backward elimination:")
+    log("\nBeginning backward elimination:", trace)
 
     for i in range(num_features - 1):
         worst_feature = None
@@ -78,7 +89,7 @@ def backward_elimination(data, num_features):
         for j in current_set:
             feature = [f for f in current_set if f != j]
             accuracy = near_neighbor(data, feature)
-            print(f"\tUsing features {set(feature)}: accuracy is {accuracy*100:.1f}%")
+            log(f"\tUsing features {set(feature)}: accuracy is {accuracy*100:.1f}%", trace)
             if accuracy > best_accuracy:
                 best_accuracy = accuracy
                 worst_feature = j
@@ -88,5 +99,6 @@ def backward_elimination(data, num_features):
         if best_accuracy > best_overall_accuracy:
             best_overall_accuracy = best_accuracy
             best_overall_set = list(current_set)
-        print(f"Feature set {set(current_set)} has accuracy {best_accuracy*100:.1f}%")
-    print(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.1f}%")
+        log(f"Feature set {set(current_set)} has accuracy {best_accuracy*100:.1f}%", trace)
+    log(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy*100:.1f}%", trace)
+    trace.close()

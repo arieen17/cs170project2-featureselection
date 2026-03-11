@@ -33,9 +33,9 @@ def main():
     choice = input()
     start = time.time()
     if choice == '1':
-        forward_selection(data, num_features)
+        forward_selection(data, num_features, filename)
     elif choice == '2':
-        backward_elimination(data, num_features)  
+        backward_elimination(data, num_features, filename)
     else:
         print("Invalid choice, enter 1 or 2!")
     end = time.time()

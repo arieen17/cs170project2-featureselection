@@ -1,15 +1,10 @@
 import sys
 import time
+import numpy as np
 from search import forward_selection, backward_elimination, near_neighbor
 
 def load_data(filename):
-    data = []
-    with open(filename, 'r') as f:
-        for line in f:
-            row = list(map(float, line.split()))
-            if row:
-                data.append(row)
-    return data
+    return np.loadtxt(filename)
 
 def main():
     print("Welcome to Arielle Haryanto's Feature Selection Algorithm!")
@@ -21,7 +16,7 @@ def main():
         sys.exit(1)
 
     num_instances = len(data)
-    num_features  = len(data[0]) - 1
+    num_features  = data.shape[1] - 1
 
     all_features = list(range(1, num_features + 1))
     all_acc = near_neighbor(data, all_features)
@@ -30,6 +25,7 @@ def main():
     print("\t2. Backward Elimination")
     print(f"\nThis dataset has {num_features} features (not including the class attribute), with {num_instances} instances.")
     print(f'\nRunning nearest neighbor with all {num_features} features, using "leaving-one-out" evaluation, I get an accuracy of {all_acc*100:.1f}%')
+    
     choice = input()
     start = time.time()
     if choice == '1':

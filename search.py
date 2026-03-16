@@ -9,7 +9,7 @@ def log(msg, trace):
 
 @njit
 def near_neighbor(data, features):
-    if not features:
+    if len(features) == 0:
         return 0.0
     correct = 0
     n = data.shape[0]
@@ -49,7 +49,12 @@ def forward_selection(data, num_features, filename):
     best_overall_set = []         # feature set that achieved best_overall_accuracy
 
     log("\nBeginning forward selection:", trace)
-    log(f"Using features {set()}: accuracy is 0.0%", trace)
+    empty_accuracy = near_neighbor(data, np.empty(0, dtype=np.int64))
+    log(f"Using features {set()}: accuracy is {empty_accuracy * 100:.1f}%", trace)
+
+    if empty_accuracy > best_overall_accuracy:
+        best_overall_accuracy = empty_accuracy
+        best_overall_set = []
 
     for i in range(1, num_features + 1):
         best_feature = None
@@ -123,6 +128,11 @@ def backward_elimination(data, num_features, filename):
             best_overall_set = list(current_set)
 
         log(f"Feature set {set(current_set)} has accuracy {best_accuracy * 100:.1f}%", trace)
+    empty_accuracy = near_neighbor(data, np.empty(0, dtype=np.int64))
+    log(f"\tUsing features {set()}: accuracy is {empty_accuracy * 100:.1f}%", trace)
 
+    if empty_accuracy > best_overall_accuracy:
+        best_overall_accuracy = empty_accuracy
+        best_overall_set = []
     log(f"\nBest feature set found: {set(best_overall_set)} with accuracy {best_overall_accuracy * 100:.1f}%", trace)
     trace.close()
